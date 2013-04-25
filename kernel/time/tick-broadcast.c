@@ -92,9 +92,6 @@ void tick_install_broadcast_device(struct clock_event_device *dev)
 	if (!try_module_get(dev->owner))
 		return;
 
-	if (!try_module_get(dev->owner))
-		return;
-
 	clockevents_exchange_device(cur, dev);
 	if (cur)
 		cur->event_handler = clockevents_handle_noop;
