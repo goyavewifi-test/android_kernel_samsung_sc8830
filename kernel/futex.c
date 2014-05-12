@@ -1303,7 +1303,7 @@ static int futex_proxy_trylock_atomic(u32 __user *pifutex,
 {
 	struct futex_q *top_waiter = NULL;
 	u32 curval;
-	int ret;
+	int ret, vpid;
 
 	if (get_futex_value_locked(&curval, pifutex))
 		return -EFAULT;
@@ -1331,10 +1331,13 @@ static int futex_proxy_trylock_atomic(u32 __user *pifutex,
 	 * the contended case or if set_waiters is 1.  The pi_state is returned
 	 * in ps in contended cases.
 	 */
-	ret = futex_lock_pi_atomic(pifutex, hb2, key2, ps, top_waiter->task,
-				   set_waiters);
-	if (ret == 1)
+	vpid = task_pid_vnr(top_waiter->task);
+	ret = futex_lock_pi_atomic(pifutex, hb2, key2, ps,
+					   top_waiter->task, set_waiters);
+	if (ret == 1) {
 		requeue_pi_wake_futex(top_waiter, key2, hb2);
+		return vpid;
+	}
 
 	return ret;
 }
@@ -1367,7 +1370,6 @@ static int futex_requeue(u32 __user *uaddr1, unsigned int flags,
 	struct futex_hash_bucket *hb1, *hb2;
 	struct plist_head *head1;
 	struct futex_q *this, *next;
-	u32 curval2;
 
 	if (requeue_pi) {
 		/*
@@ -1471,14 +1473,17 @@ retry_private:
 		 * exist yet, look it up one more time to ensure we have a
 		 * reference to it.
 		 */
-		if (ret == 1) {
+		if (ret > 0) {
 			WARN_ON(pi_state);
 			drop_count++;
 			task_count++;
-			ret = get_futex_value_locked(&curval2, uaddr2);
-			if (!ret)
-				ret = lookup_pi_state(curval2, hb2, &key2,
-						      &pi_state);
+			/*
+			 * The lock was acquired for the top waiter and ret
+			 * contains its vpid. Use that known value instead
+			 * of rereading a userspace futex which could have
+			 * been manipulated behind our back.
+			 */
+			ret = lookup_pi_state(ret, hb2, &key2, &pi_state);
 		}
 
 		switch (ret) {
