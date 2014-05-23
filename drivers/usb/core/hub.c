@@ -1648,9 +1648,8 @@ static int hub_probe(struct usb_interface *intf, const struct usb_device_id *id)
 	struct usb_endpoint_descriptor *endpoint;
 	struct usb_device *hdev;
 	struct usb_hub *hub;
-#ifdef CONFIG_USB_EXTERNAL_DETECT
 	struct usb_hcd *hcd;
-#endif
+	bool may_autosuspend = true;
 
 	desc = intf->cur_altsetting;
 	hdev = interface_to_usbdev(intf);
@@ -1689,12 +1688,21 @@ static int hub_probe(struct usb_interface *intf, const struct usb_device_id *id)
 	 *   of USB bus.
 	 */
 	pm_runtime_set_autosuspend_delay(&hdev->dev, 0);
-#ifdef CONFIG_USB_EXTERNAL_DETECT
 	hcd = bus_to_hcd(hdev->bus);
-	if (!hcd->no_suspend)
-		/* Hubs have proper suspend/resume support. */
-		usb_enable_autosuspend(hdev);
+
+#ifdef CONFIG_USB_EXTERNAL_DETECT
+	/* Some Samsung HCDs explicitly prohibit bus suspend. */
+	may_autosuspend = !hcd->no_suspend;
 #endif
+
+	/*
+	 * Normal hubs support autosuspend.  A root hub may use it only
+	 * when its host-controller driver can suspend and resume the bus.
+	 */
+	if (may_autosuspend &&
+	    (hdev->parent ||
+	     (hcd->driver->bus_suspend && hcd->driver->bus_resume)))
+		usb_enable_autosuspend(hdev);
 
 	if (hdev->level == MAX_TOPO_LEVEL) {
 		dev_err(&intf->dev,
