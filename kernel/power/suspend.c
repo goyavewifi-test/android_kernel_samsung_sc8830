@@ -36,15 +36,16 @@
 
 struct pm_sleep_state pm_states[PM_SUSPEND_MAX] = {
 #ifdef CONFIG_EARLYSUSPEND
-	[PM_SUSPEND_ON] = { "on", PM_SUSPEND_ON },
-#endif
-	[PM_SUSPEND_STANDBY] = {
-		"standby", PM_SUSPEND_STANDBY
+	[PM_SUSPEND_ON] = {
+		.label = "on", .state = PM_SUSPEND_ON
 	},
-	[PM_SUSPEND_MEM] = { "mem", PM_SUSPEND_MEM },
+#endif
+	[PM_SUSPEND_STANDBY] = { .label = "standby", },
+	[PM_SUSPEND_MEM] = { .label = "mem", },
 };
 
 static const struct platform_suspend_ops *suspend_ops;
+static bool valid_state(suspend_state_t state);
 
 static DECLARE_WAIT_QUEUE_HEAD(suspend_freeze_wait_head);
 static bool suspend_freeze_wake;
@@ -72,13 +73,20 @@ EXPORT_SYMBOL_GPL(freeze_wake);
  */
 void suspend_set_ops(const struct platform_suspend_ops *ops)
 {
+	suspend_state_t i;
+
 	lock_system_sleep();
 	suspend_ops = ops;
+
+	for (i = PM_SUSPEND_STANDBY;
+	     i <= PM_SUSPEND_MEM; i++)
+		pm_states[i].state = valid_state(i) ? i : 0;
+
 	unlock_system_sleep();
 }
 EXPORT_SYMBOL_GPL(suspend_set_ops);
 
-bool valid_state(suspend_state_t state)
+static bool valid_state(suspend_state_t state)
 {
 	/*
 	 * All states need lowlevel support and need to be valid to the lowlevel
