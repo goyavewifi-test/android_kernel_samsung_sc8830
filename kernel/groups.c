@@ -256,6 +256,16 @@ out:
 	return i;
 }
 
+bool may_setgroups(void)
+{
+	/*
+	 * Capability and subset validation is performed by
+	 * set_current_groups().  Keep this hook for namespace-wide
+	 * setgroups policy.
+	 */
+	return true;
+}
+
 /*
  *	SMP: Our groups are copy-on-write. We can set them safely
  *	without another task interfering.
@@ -266,6 +276,8 @@ SYSCALL_DEFINE2(setgroups, int, gidsetsize, gid_t __user *, grouplist)
 	struct group_info *group_info;
 	int retval;
 
+	if (!may_setgroups())
+		return -EPERM;
 	if ((unsigned)gidsetsize > NGROUPS_MAX)
 		return -EINVAL;
 
