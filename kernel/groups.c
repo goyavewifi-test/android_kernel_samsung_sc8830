@@ -6,6 +6,7 @@
 #include <linux/slab.h>
 #include <linux/security.h>
 #include <linux/syscalls.h>
+#include <linux/user_namespace.h>
 #include <asm/uaccess.h>
 
 /* init to 2 - one for init_task, one to ensure it is never freed */
@@ -258,12 +259,14 @@ out:
 
 bool may_setgroups(void)
 {
+	struct user_namespace *user_ns = current_user_ns();
+
 	/*
 	 * Capability and subset validation is performed by
-	 * set_current_groups().  Keep this hook for namespace-wide
-	 * setgroups policy.
+	 * set_current_groups().  Here we enforce the user namespace
+	 * GID mapping invariant.
 	 */
-	return true;
+	return userns_may_setgroups(user_ns);
 }
 
 /*
