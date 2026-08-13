@@ -29,8 +29,8 @@ else ifeq ($(CONFIG_MACH_GTEL3G),y)
 obj-y += sensor_power_gtel3g.o
 else ifeq ($(CONFIG_MACH_GTELWIFI),y)
 obj-y += sensor_power_gtel3g.o
-else ifeq ($(CONFIG_MACH_J1POP3G),y)
-obj-y += sensor_power_j1pop3g.o
+else ifeq ($(CONFIG_MACH_YOUNG33G),y)
+obj-y += sensor_power_young33g.o
 else
 obj-y += sensor_power.o
 endif

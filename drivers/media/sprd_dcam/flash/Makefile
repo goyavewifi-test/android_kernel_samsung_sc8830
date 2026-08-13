@@ -25,11 +25,7 @@ else
 ifeq ($(CONFIG_MACH_J13G),y)
 obj-y += flash_sm5701.o
 else
-ifeq ($(CONFIG_MACH_J1POP3G),y)
-obj-y += flash_core3.o
-else
 obj-y += flash_common.o
-endif
 endif
 endif
 endif

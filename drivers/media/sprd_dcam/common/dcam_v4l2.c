@@ -303,9 +303,7 @@ LOCAL int sprd_v4l2_setflash(uint32_t flash_mode)
 {
 	
 
-#if defined(CONFIG_MACH_CORE3_W)||defined(CONFIG_MACH_GRANDNEOVE3G) || defined(CONFIG_MACH_VIVALTO5MVE3G)	\
-	|| defined(CONFIG_MACH_VIVALTO3MVE3G_LTN) || defined(CONFIG_MACH_J13G) \
-	|| defined(CONFIG_MACH_VIVALTO3MVEML3G) || defined(CONFIG_MACH_J1POP3G)
+#if defined(CONFIG_MACH_CORE3_W)||defined(CONFIG_MACH_GRANDNEOVE3G) || defined(CONFIG_MACH_VIVALTO5MVE3G) || defined(CONFIG_MACH_VIVALTO3MVE3G_LTN) || defined(CONFIG_MACH_J13G) || defined(CONFIG_MACH_VIVALTO3MVEML3G) 
 
 	if(flash_torch_status==1)
 		return 0;
@@ -976,13 +974,7 @@ LOCAL int sprd_v4l2_check_path2_cap(uint32_t fourcc,
 		}
 
 		depth_pixel = sprd_v4l2_endian_sel(fourcc, path);
-		#if defined(CONFIG_MACH_VIVALTO5MVE3G)
-			if (info->capture_mode == 0) {
-			path->end_sel.uv_endian = DCAM_ENDIAN_LITTLE; // tmp fix: output is vu, jpeg only support vu
-		}
-		#else
 		path->end_sel.uv_endian = DCAM_ENDIAN_LITTLE; // tmp fix: output is vu, jpeg only support vu
-		#endif
 		break;
 	default:
 		printk("V4L2: unsupported image format for path2 0x%x \n", fourcc);
@@ -1753,20 +1745,11 @@ LOCAL int v4l2_try_fmt_vid_cap(struct file *file,
 		mutex_unlock(&dev->dcam_mutex);
 		channel_id = DCAM_PATH1;
 	} else if (DCAM_PATH2 == f->fmt.pix.colorspace) {
-	#if defined(CONFIG_MACH_VIVALTO5MVE3G)
-				if (0 == dev->got_resizer) {
-			if (unlikely(dcam_get_resizer(DCAM_WAIT_FOREVER))) {
-				printk("V4L2: path2 has been occupied by other app \n");
-				return -EIO;
-			}
-		}
-	#else
 		if (unlikely(dcam_get_resizer(DCAM_WAIT_FOREVER))) {
 			/*no wait to get the controller of resizer, failed*/
 			printk("V4L2: path2 has been occupied by other app \n");
 			return -EIO;
 		}
-	#endif
 		dev->got_resizer = 1;
 		mutex_lock(&dev->dcam_mutex);
 		ret = sprd_v4l2_check_path2_cap(fmt->fourcc, f, &dev->dcam_cxt);
@@ -1787,12 +1770,8 @@ LOCAL int v4l2_try_fmt_vid_cap(struct file *file,
 		return -EINVAL;
 	}
 	if ((0 == ret) && (0 != atomic_read(&dev->stream_on))) {
-	#if defined(CONFIG_MACH_VIVALTO5MVE3G)
-	ret = sprd_v4l2_update_video(file, channel_id);
-	#else
 		if (DCAM_PATH1 == channel_id)
 			ret = sprd_v4l2_update_video(file, channel_id);
-	#endif
 	}
 	return ret;
 }

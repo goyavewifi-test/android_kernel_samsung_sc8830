@@ -46,7 +46,7 @@
 
 #if defined(CONFIG_MACH_CORE3_W)|| defined(CONFIG_MACH_GRANDNEOVE3G) || defined(CONFIG_MACH_VIVALTO5MVE3G)\
 	|| defined(CONFIG_MACH_VIVALTO3MVE3G_LTN) || defined(CONFIG_MACH_J13G) || defined(CONFIG_MACH_VIVALTO3MVEML3G)	\
-	|| defined(CONFIG_MACH_J1POP3G)
+	|| defined(CONFIG_MACH_YOUNG33G)
 #include <linux/leds.h>
 #include <linux/mfd/sm5701_core.h>
 #endif
@@ -136,8 +136,8 @@
 #define REGU_NAME_CAMDVDD		"vddcamio"
 #define REGU_NAME_CAMMOT			"vddcama"  
 
-#elif defined(CONFIG_MACH_J1POP3G)
-#define REGU_NAME_SUB_CAMDVDD		"vddcamd"
+#elif defined(CONFIG_MACH_YOUNG33G)
+#define REGU_NAME_SUB_CAMDVDD	"vddcamd"
 #define REGU_NAME_CAMMOT		"vddcama"
 #define REGU_NAME_CAMVIO		"vddcamd"
 
@@ -582,7 +582,7 @@ int sensor_k_set_voltage_avdd(uint32_t avdd_val)
 
 	SENSOR_PRINT_HIGH("sensor set AVDD val %d\n", avdd_val);
 
-#if defined(CONFIG_MACH_J1POP3G)
+#if defined(CONFIG_MACH_YOUNG33G)
 	SENSOR_PRINT_HIGH("sensor_k_set_voltage_dvdd : sensor set AVDD gpio %d\n", s_p_sensor_mod->pin_main_camavdd_en);
 	if (SENSOR_VDD_CLOSED == avdd_val)
 	{
@@ -698,8 +698,7 @@ int sensor_k_set_voltage_dvdd(uint32_t dvdd_val)
 	}
 #endif
 
-#if defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI) \
-	|| defined(CONFIG_MACH_J1POP3G)
+#if defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI) || defined(CONFIG_MACH_YOUNG33G)
 	SENSOR_PRINT_HIGH("sensor_k_set_voltage_dvdd : sensor set DVDD gpio %d\n", s_p_sensor_mod->pin_main_camdvdd_en);
 	if (SENSOR_VDD_CLOSED == dvdd_val)
 	{
@@ -2235,12 +2234,11 @@ int sensor_k_probe(struct platform_device *pdev)
 
 #if  defined(CONFIG_MACH_CORE3_W) || defined(CONFIG_MACH_GRANDNEOVE3G) || defined(CONFIG_MACH_J13G)	\
 	|| defined(CONFIG_MACH_VIVALTO5MVE3G) || defined(CONFIG_MACH_GOYAVE3G_SWA)	\
-	|| defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI) \
-	|| defined(CONFIG_MACH_J1POP3G)
+	|| defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI) || defined(CONFIG_MACH_YOUNG33G)
 	s_p_sensor_mod->pin_main_camdvdd_en = of_get_gpio(sensor_dev.this_device->of_node,4);
 #endif
 
-#if defined(CONFIG_MACH_J1POP3G)
+#if defined(CONFIG_MACH_YOUNG33G)
 	s_p_sensor_mod->pin_main_camavdd_en = of_get_gpio(sensor_dev.this_device->of_node,5);
 #endif
 
@@ -2260,12 +2258,11 @@ int sensor_k_probe(struct platform_device *pdev)
 
 #if  defined(CONFIG_MACH_CORE3_W) || defined(CONFIG_MACH_GRANDNEOVE3G) || defined(CONFIG_MACH_J13G)	\
 	|| defined(CONFIG_MACH_VIVALTO5MVE3G) || defined(CONFIG_MACH_GOYAVE3G_SWA)	\
-	|| defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI) \
-	|| defined(CONFIG_MACH_J1POP3G)
+	|| defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI) || defined(CONFIG_MACH_YOUNG33G)
 	printk("sensor_k_probe : Sensor pin_main_camdvdd_en = %d\n", s_p_sensor_mod->pin_main_camdvdd_en);
 #endif
 	
-#if defined(CONFIG_MACH_J1POP3G)
+#if defined(CONFIG_MACH_YOUNG33G)
 	printk("sensor_k_probe : Sensor pin_main_camavdd_en = %d\n", s_p_sensor_mod->pin_main_camavdd_en);
 #endif
 
@@ -2290,9 +2287,8 @@ int sensor_k_probe(struct platform_device *pdev)
 	}
 
 #if defined (CONFIG_MACH_CORE3_W) || defined(CONFIG_MACH_J13G) || defined (CONFIG_MACH_GRANDNEOVE3G)\
-	|| defined(CONFIG_MACH_VIVALTO5MVE3G)|| defined(CONFIG_MACH_GOYAVE3G) || defined(CONFIG_MACH_GOYAVEWIFI)	\
-	|| defined(CONFIG_MACH_GOYAVE3G_SEA) || defined(CONFIG_MACH_GOYAVEWIFI_SEA_XTC) \
-	|| defined(CONFIG_MACH_VIVALTO3MVEML3G_SEA) || defined(CONFIG_MACH_J1POP3G)
+    || defined(CONFIG_MACH_VIVALTO5MVE3G)|| defined(CONFIG_MACH_GOYAVE3G) || defined(CONFIG_MACH_GOYAVEWIFI)	\
+    || defined(CONFIG_MACH_GOYAVE3G_SEA) || defined(CONFIG_MACH_GOYAVEWIFI_SEA_XTC) || defined(CONFIG_MACH_YOUNG33G) || defined(CONFIG_MACH_VIVALTO3MVEML3G_SEA)
 
 	// Get sub RST GPIO
 	if(s_p_sensor_mod->pin_sub_reset >= 0)
@@ -2317,8 +2313,7 @@ int sensor_k_probe(struct platform_device *pdev)
 
 #if defined(CONFIG_MACH_CORE3_W) || defined(CONFIG_MACH_J13G) || defined(CONFIG_MACH_GRANDNEOVE3G)	\
 	|| defined(CONFIG_MACH_VIVALTO5MVE3G) || defined(CONFIG_MACH_GOYAVE3G_SWA) 	\
-	|| defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI) \
-	|| defined(CONFIG_MACH_J1POP3G)
+	|| defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI) || defined(CONFIG_MACH_YOUNG33G)
 
 	ret = gpio_request(s_p_sensor_mod->pin_main_camdvdd_en, "main camera dvdd");
 	if (ret)
@@ -2333,7 +2328,7 @@ int sensor_k_probe(struct platform_device *pdev)
 
 #endif
 
-#if defined(CONFIG_MACH_J1POP3G)
+#if defined(CONFIG_MACH_YOUNG33G)
 
 	ret = gpio_request(s_p_sensor_mod->pin_main_camavdd_en, "main camera avdd");
 	if (ret)
@@ -2400,12 +2395,11 @@ LOCAL int sensor_k_remove(struct platform_device *dev)
 
 #if defined(CONFIG_MACH_CORE3_W) || defined(CONFIG_MACH_J13G) || defined(CONFIG_MACH_GRANDNEOVE3G)	\
 	|| defined(CONFIG_MACH_VIVALTO5MVE3G) || defined(CONFIG_MACH_GOYAVE3G_SWA)	\
-	|| defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI) \
-	|| defined(CONFIG_MACH_J1POP3G)
+	|| defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI) || defined(CONFIG_MACH_YOUNG33G)
 	gpio_free(s_p_sensor_mod->pin_main_camdvdd_en);
 #endif
 
-#if defined(CONFIG_MACH_J1POP3G)
+#if defined(CONFIG_MACH_YOUNG33G)
 	gpio_free(s_p_sensor_mod->pin_main_camavdd_en);
 #endif
 
@@ -2440,7 +2434,7 @@ struct class *camera_class;
 #define FRONT_SENSOR_NAME	"SR030PC50M N\n"
 #endif
 
-#elif defined(CONFIG_MACH_VIVALTO5MVE3G) || defined(CONFIG_MACH_J1POP3G)
+#elif defined(CONFIG_MACH_VIVALTO5MVE3G) || defined(CONFIG_MACH_YOUNG33G)
 
 #define REAR_SENSOR_NAME	"S5K4ECGX N\n"
 #define FRONT_SENSOR_NAME	"SR030PC50M N\n"
@@ -2482,7 +2476,7 @@ struct class *camera_class;
 
 #if defined (CONFIG_MACH_CORE3_W) || defined(CONFIG_MACH_J13G) || defined (CONFIG_MACH_GRANDNEOVE3G)\
     || defined (CONFIG_MACH_VIVALTO5MVE3G) || defined(CONFIG_MACH_VIVALTO3MVE3G_LTN)	\
-    || defined(CONFIG_MACH_VIVALTO3MVEML3G) || defined(CONFIG_MACH_J1POP3G)
+    || defined(CONFIG_MACH_VIVALTO3MVEML3G) || defined(CONFIG_MACH_YOUNG33G)
 
 LOCAL int _Sensor_K_SetTorch(uint32_t flash_mode)
 {
@@ -2538,7 +2532,7 @@ static ssize_t Cam_Sensor_TYPE(struct device *dev, struct device_attribute *attr
 
 #if defined (CONFIG_MACH_CORE3_W) || defined(CONFIG_MACH_J13G) || defined (CONFIG_MACH_GRANDNEOVE3G)\
     || defined (CONFIG_MACH_VIVALTO5MVE3G) || defined(CONFIG_MACH_VIVALTO3MVE3G_LTN)	\
-    || defined(CONFIG_MACH_VIVALTO3MVEML3G) || defined(CONFIG_MACH_J1POP3G)
+    || defined(CONFIG_MACH_VIVALTO3MVEML3G) || defined(CONFIG_MACH_YOUNG33G)
 
 static ssize_t Rear_Cam_store_flash(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
 {
@@ -2579,7 +2573,7 @@ static ssize_t Front_Cam_Type_Store(struct device *dev, struct device_attribute 
 #if defined(CONFIG_MACH_CORE3_W) || defined(CONFIG_MACH_GRANDNEOVE3G) || defined(CONFIG_MACH_VIVALTO5MVE3G)	\
 	|| defined(CONFIG_MACH_J13G) || defined(CONFIG_MACH_GOYAVE3G_SWA)	\
 	|| defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI)	\
-	|| defined(CONFIG_MACH_J1POP3G)
+	|| defined(CONFIG_MACH_YOUNG33G)
 static ssize_t S5K4ECGX_camera_vendorid_show(struct device *dev, struct device_attribute *attr, char *buf)
 {
 	int count;
@@ -2640,7 +2634,7 @@ static DEVICE_ATTR(rear_type, S_IRUGO | S_IXOTH, Cam_Sensor_TYPE, NULL); // Read
 
 #if defined (CONFIG_MACH_CORE3_W) || defined(CONFIG_MACH_J13G) || defined (CONFIG_MACH_GRANDNEOVE3G)\
     || defined (CONFIG_MACH_VIVALTO5MVE3G) || defined(CONFIG_MACH_VIVALTO3MVE3G_LTN)	\
-    || defined(CONFIG_MACH_VIVALTO3MVEML3G) || defined(CONFIG_MACH_J1POP3G)
+    || defined(CONFIG_MACH_VIVALTO3MVEML3G) || defined(CONFIG_MACH_YOUNG33G)
 static DEVICE_ATTR(rear_flash, S_IWUSR | S_IWGRP | S_IXOTH, Rear_Cam_show_flash, Rear_Cam_store_flash); // Write(User, Group), Execute(Other)
 #endif
 
@@ -2652,8 +2646,8 @@ static DEVICE_ATTR(front_camfw, S_IRUGO | S_IXOTH, Front_Cam_Sensor_ID, NULL); /
 static DEVICE_ATTR(front_type, S_IRUGO | S_IXOTH, Cam_Sensor_TYPE, NULL); // Read(User, Group, Other), Execute(Other)
 
 #if  defined(CONFIG_MACH_CORE3_W)|| defined(CONFIG_MACH_GRANDNEOVE3G) || defined(CONFIG_MACH_VIVALTO5MVE3G)	\
-	|| defined(CONFIG_MACH_J13G) || defined(CONFIG_MACH_GOYAVE3G_SWA) \
-	|| defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI) || defined(CONFIG_MACH_J1POP3G)
+	|| defined(CONFIG_MACH_J13G) || defined(CONFIG_MACH_GOYAVE3G_SWA) || defined(CONFIG_MACH_YOUNG33G)	\
+	|| defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI)
 
 static struct device_attribute S5K4ECGX_camera_vendorid_attr = {
 	.attr = {
@@ -2745,7 +2739,7 @@ int __init sensor_k_init(void)
 
 #if defined (CONFIG_MACH_CORE3_W) || defined(CONFIG_MACH_J13G) || defined (CONFIG_MACH_GRANDNEOVE3G)\
     || defined (CONFIG_MACH_VIVALTO5MVE3G) || defined(CONFIG_MACH_VIVALTO3MVE3G_LTN)	\
-    || defined(CONFIG_MACH_VIVALTO3MVEML3G) || defined(CONFIG_MACH_J1POP3G)
+    || defined(CONFIG_MACH_VIVALTO3MVEML3G) || defined(CONFIG_MACH_YOUNG33G)
 
 	err = device_create_file(dev_t_rear, &dev_attr_rear_flash);
 	if(err)
@@ -2780,8 +2774,8 @@ int __init sensor_k_init(void)
 #endif
 
 #if  defined(CONFIG_MACH_CORE3_W)|| defined(CONFIG_MACH_GRANDNEOVE3G) || defined(CONFIG_MACH_VIVALTO5MVE3G)	\
-	|| defined(CONFIG_MACH_J13G) || defined(CONFIG_MACH_GOYAVE3G_SWA) \
-	|| defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI) || defined(CONFIG_MACH_J1POP3G)
+	|| defined(CONFIG_MACH_J13G) || defined(CONFIG_MACH_GOYAVE3G_SWA) || defined(CONFIG_MACH_YOUNG33G)	\
+	|| defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI)
 	err = device_create_file(dev_t_rear, &S5K4ECGX_camera_vendorid_attr);
 	if(err)
 	{
@@ -2818,14 +2812,14 @@ int __init sensor_k_init(void)
 
 #if defined (CONFIG_MACH_CORE3_W) || defined(CONFIG_MACH_J13G) || defined (CONFIG_MACH_GRANDNEOVE3G)\
     || defined (CONFIG_MACH_VIVALTO5MVE3G) || defined(CONFIG_MACH_VIVALTO3MVE3G_LTN)	\
-    || defined(CONFIG_MACH_VIVALTO3MVEML3G) || defined(CONFIG_MACH_J1POP3G)
+    || defined(CONFIG_MACH_VIVALTO3MVEML3G) || defined(CONFIG_MACH_YOUNG33G)
 	err_make_rear_flash_file:
 		device_remove_file(dev_t_rear, &dev_attr_rear_flash);
 #endif
 
 #if  defined(CONFIG_MACH_CORE3_W)|| defined(CONFIG_MACH_GRANDNEOVE3G) || defined(CONFIG_MACH_VIVALTO5MVE3G)	\
-	|| defined(CONFIG_MACH_J13G) || defined(CONFIG_MACH_GOYAVE3G_SWA) \
-	|| defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI) || defined(CONFIG_MACH_J1POP3G)
+	|| defined(CONFIG_MACH_J13G) || defined(CONFIG_MACH_GOYAVE3G_SWA) ||	defined(CONFIG_MACH_YOUNG33G)\
+	|| defined(CONFIG_MACH_GTEL3G) || defined(CONFIG_MACH_GTELWIFI)
 	err_make_camera_vendorid:
 		device_remove_file(dev_t_rear, &S5K4ECGX_camera_vendorid_attr);
 	err_make_camera_antibanding:
