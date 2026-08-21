@@ -2287,7 +2287,13 @@ dhd_rx_frame(dhd_pub_t *dhdp, int ifidx, void *pktbuf, int numpkt, uint8 chan)
 			}
 #endif 
 		} else {
-			tout_rx = DHD_PACKET_TIMEOUT_MS;
+			/*
+			 * Keep normal RX wake protection while awake, but avoid
+			 * holding suspend for 500 ms on every incoming packet.
+			 */
+			tout_rx = dhdp->in_suspend ?
+				DHD_SUSPEND_PACKET_TIMEOUT_MS :
+				DHD_PACKET_TIMEOUT_MS;
 		}
 
 		ASSERT(ifidx < DHD_MAX_IFS && dhd->iflist[ifidx]);
