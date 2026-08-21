@@ -90,6 +90,7 @@ config SPRD_SCX35_DMC_FREQ
 	bool "Spreadtrum scx35 Memory Bus DMCFREQ Driver"
 	depends on ARCH_SCX35
 	select ARCH_HAS_OPP
+	select PM_OPP
 	select DEVFREQ_GOV_ONDEMAND
 	help
 	  This adds the DMCFREQ driver for Spreadtrum scx35 memory bus (vdd_core)
