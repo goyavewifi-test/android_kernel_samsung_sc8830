@@ -1223,14 +1223,12 @@ extern char* gpufreq_table;
 
 static ssize_t gpufreq_min_limit_show(struct device *dev, struct device_attribute *attr,char *buf)
 {
-	sprintf(buf, "%d\n", gpufreq_min_limit);
-	return sizeof(int);
+	return sprintf(buf, "%d\n", gpufreq_min_limit);
 }
 
 static ssize_t gpufreq_max_limit_show(struct device *dev, struct device_attribute *attr,char *buf)
 {
-	sprintf(buf, "%d\n", gpufreq_max_limit);
-	return sizeof(int);
+	return sprintf(buf, "%d\n", gpufreq_max_limit);
 }
 
 static ssize_t gpufreq_min_limit_store(struct device *dev, struct device_attribute *attr,const char *buf, size_t count)
