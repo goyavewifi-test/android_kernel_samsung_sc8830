@@ -389,6 +389,10 @@
 		CALL(sys_process_vm_writev)
 		CALL(sys_kcmp)
 		CALL(sys_finit_module)
+                CALL(sys_ni_syscall)            @ 380 sched_setattr
+                CALL(sys_ni_syscall)            @ 381 sched_getattr
+                CALL(sys_ni_syscall)            @ 382 renameat2
+                CALL(sys_seccomp)               @ 383
 #ifndef syscalls_counted
 .equ syscalls_padding, ((NR_syscalls + 3) & ~3) - NR_syscalls
 #define syscalls_counted

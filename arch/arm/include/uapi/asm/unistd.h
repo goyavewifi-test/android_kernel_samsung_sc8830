@@ -406,6 +406,12 @@
 #define __NR_process_vm_writev		(__NR_SYSCALL_BASE+377)
 #define __NR_kcmp			(__NR_SYSCALL_BASE+378)
 #define __NR_finit_module		(__NR_SYSCALL_BASE+379)
+/* Backporting seccomp, reserve the upstream syscall numbers:
+ * 380 sched_setattr
+ * 381 sched_getattr
+ * 382 renameat2
+ */
+#define __NR_seccomp                    (__NR_SYSCALL_BASE+383)
 
 /*
  * This may need to be greater than __NR_last_syscall+1 in order to
