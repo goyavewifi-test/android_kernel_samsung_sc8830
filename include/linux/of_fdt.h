@@ -91,6 +91,24 @@ extern int of_flat_dt_is_compatible(unsigned long node, const char *name);
 extern int of_flat_dt_match(unsigned long node, const char *const *matches);
 extern unsigned long of_get_flat_dt_root(void);
 
+/*
+ * early_init_dt_scan_chosen - scan the device tree for ramdisk and bootargs
+ *
+ * The boot arguments will be placed into the memory pointed to by @data.
+ * That memory should be COMMAND_LINE_SIZE big and initialized to be a valid
+ * possibly empty string.
+ *
+ * CONFIG_CMDLINE_FORCE:
+ *     use CONFIG_CMDLINE only
+ *
+ * CONFIG_CMDLINE_EXTEND:
+ *     append DT bootargs to the existing command line, or to CONFIG_CMDLINE
+ *     if the incoming command line is empty
+ *
+ * CMDLINE_FROM_BOOTLOADER:
+ *     prefer DT bootargs when present, otherwise preserve the existing
+ *     command line or fall back to CONFIG_CMDLINE
+ */
 extern int early_init_dt_scan_chosen(unsigned long node, const char *uname,
 				     int depth, void *data);
 extern void early_init_dt_check_for_initrd(unsigned long node);
