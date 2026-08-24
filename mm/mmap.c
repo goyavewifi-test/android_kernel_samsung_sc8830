@@ -2056,7 +2056,7 @@ static int vmacache_hit_proc_show(struct seq_file *m, void *v)
 					,(vma_cache_found * 100)/total_no_of_find_vma);
 	else
 		seq_printf(m, "0\n");
-	return;
+	return 0;
 }
 
 static int vmacache_hit_proc_open(struct inode *inode, struct file *file)
