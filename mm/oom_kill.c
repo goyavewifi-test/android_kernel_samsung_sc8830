@@ -428,6 +428,7 @@ static void set_thread_group_flag(struct task_struct *p, int flag)
 	do {
 		set_tsk_thread_flag(tp, TIF_MEMDIE);
 	} while_each_thread(p, tp);
+}
 
 /*
  * Number of OOM killer invocations (including memcg OOM killer).
