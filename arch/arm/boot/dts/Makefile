@@ -274,43 +274,14 @@ else ifeq ($(CONFIG_MACH_GOYAVE3G_SEA),y)
 dtb-$(CONFIG_MACH_GOYAVE3G_SEA) += sprd-scx35_goyafcve3g_rev03.dtb \
 				sprd-scx35_goyafcve3g_rev04.dtb
 else
-dtb-$(CONFIG_MACH_GOYAVE3G) += sprd-scx35_goyave3g_rev00.dtb \
-				sprd-scx35_goyave3g_rev01.dtb \
-				sprd-scx35_goyave3g_rev02.dtb \
-				sprd-scx35_goyave3g_rev03.dtb \
-				sprd-scx35_goyave3g_rev04.dtb
-
-dtb-$(CONFIG_MACH_GTEL3G) += sprd-scx35_gtel3g_rev00.dtb \
-				sprd-scx35_gtel3g_rev01.dtb \
-				sprd-scx35_gtel3g_rev02.dtb \
-				sprd-scx35_gtel3g_rev03.dtb \
-				sprd-scx35_gtel3g_rev04.dtb \
-				sprd-scx35_gtel3g_rev05.dtb \
-				sprd-scx35_gtel3g_rev06.dtb \
-				sprd-scx35_gtel3g_rev07.dtb \
-				sprd-scx35_gtel3g_rev08.dtb \
-				sprd-scx35_gtel3g_rev09.dtb \
-				sprd-scx35_gtel3g_rev10.dtb \
-				sprd-scx35_gtel3g_rev11.dtb
-
-dtb-$(CONFIG_MACH_GTELWIFI) += sprd-scx35_gtelwifi_rev02.dtb \
-				sprd-scx35_gtelwifi_rev03.dtb \
-				sprd-scx35_gtelwifi_rev04.dtb \
-				sprd-scx35_gtelwifi_rev05.dtb \
-				sprd-scx35_gtelwifi_rev06.dtb \
-				sprd-scx35_gtelwifi_rev09.dtb \
-				sprd-scx35_gtelwifi_rev10.dtb \
-				sprd-scx35_gtelwifi_rev11.dtb
-
+dtb-$(CONFIG_MACH_GOYAVE3G) += sprd-scx35_goyave3g_rev04.dtb
 endif
 ifeq ($(CONFIG_MACH_GOYAVEWIFI_SEA_XTC),y)
 dtb-$(CONFIG_MACH_GOYAVEWIFI_SEA_XTC) += sprd-scx35_goyafcvewifi_rev02.dtb \
 				sprd-scx35_goyafcvewifi_rev03.dtb \
 				sprd-scx35_goyafcvewifi_rev04.dtb 
 else
-dtb-$(CONFIG_MACH_GOYAVEWIFI) += sprd-scx35_goyavewifi_rev02.dtb \
-				sprd-scx35_goyavewifi_rev03.dtb \
-				sprd-scx35_goyavewifi_rev04.dtb
+dtb-$(CONFIG_MACH_GOYAVEWIFI) += sprd-scx35_goyavewifi_rev04.dtb
 endif
 dtb-$(CONFIG_MACH_J13G) += sprd-scx35_j13g_rev00.dtb \
 				sprd-scx35_j13g_rev00_4Gb.dtb \
