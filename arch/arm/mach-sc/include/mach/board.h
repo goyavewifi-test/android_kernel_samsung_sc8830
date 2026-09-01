@@ -226,8 +226,8 @@
 #include "__board-tshark2goyal.h"
 #endif
 
-#ifdef	CONFIG_MACH_TSHARKGOYAVEWIFI
-#include "__board-tsharkgoyavewifi.h"
+#ifdef	CONFIG_MACH_GOYAVEWIFI
+#include "__board-goyavewifi.h"
 #endif
 
 #ifdef  CONFIG_MACH_GTEL3G
